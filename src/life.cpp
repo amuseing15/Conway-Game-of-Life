@@ -18,10 +18,24 @@ using namespace std;
 
 
 
+void PrintGridFormat (Grid<int> mainGrid) {
+    for (int i = 0; i < mainGrid.numRows(); i++) {
+        for (int j = 0; j < mainGrid.numCols(); j++) {
+            if (mainGrid.get(i,j) == 0) {
+                cout << "-";
+            } else {
+                cout << "X";
+            }
+        }
+        cout << endl;
+    }
+}
+
+
 Grid<int> InitializeStartingColony() {
     // Extract row and column from input file
     ifstream startingColony;
-    string fileName = promptUserForFile(startingColony, "Grid input file name? ", "Try again ");
+    string fileName = promptUserForFile(startingColony, "Grid input file name? ", "Unable to open that file.  Try again. ");
     string str1;
     getline(startingColony, str1);
     while(str1.at(0) == '#') {
@@ -46,7 +60,8 @@ Grid<int> InitializeStartingColony() {
         }
     startingColony.close();
 
-    cout << fileGrid.toString2D() << endl;
+    PrintGridFormat(fileGrid);
+    //cout << fileGrid.toString2D() << endl;
 
     return fileGrid;
 }
@@ -142,7 +157,8 @@ void GenerateSimulation(Grid<int> mainGrid, Grid<int> newGrid) {
                 clearConsole();
 
                 PopulateNextGeneration(mainGrid, newGrid);
-                cout << newGrid.toString2D() << endl;
+                PrintGridFormat(newGrid);
+                //cout << newGrid.toString2D() << endl;
                 mainGrid = newGrid;
 
                 pause(500);
@@ -170,13 +186,14 @@ void GenerateSimulation(Grid<int> mainGrid, Grid<int> newGrid) {
 
         } else if (response == "t" || response == "T") {
             PopulateNextGeneration(mainGrid, newGrid);
-            cout << newGrid.toString2D() << endl;
+            PrintGridFormat(newGrid);
+            //cout << newGrid.toString2D() << endl;
             mainGrid = newGrid;
         } else if (response == "q" || response == "Q") {
             cout << "Have a nice Life!";
             break;
         } else {
-            cout << "Whoops!" << endl;
+            cout << "Invalid choice; please try again. " << endl;
         }
 
     }
@@ -190,7 +207,7 @@ void Welcome() {
     cout << "Cells (X) live and die by the following rules: " << endl;
     cout << "- A cell with 1 or fewer neighbors dies. " << endl;
     cout << "- Locations with 2 neighbors remain stable. " << endl;
-    cout << "- Location with 3 neighbors will create life. " << endl;
+    cout << "- Locations with 3 neighbors will create life. " << endl;
     cout << "- A cell with 4 or more neighbors dies. " << endl;
     cout << endl;
 
