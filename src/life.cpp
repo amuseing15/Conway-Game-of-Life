@@ -61,7 +61,6 @@ Grid<int> InitializeStartingColony() {
     startingColony.close();
 
     PrintGridFormat(fileGrid);
-    //cout << fileGrid.toString2D() << endl;
 
     return fileGrid;
 }
@@ -118,7 +117,6 @@ void PopulateNextGeneration(Grid<int> mainGrid, Grid<int> &newGrid) {
 
         }
     }
-    //cout << testGrid.toString2D() << endl;
 
 }
 
@@ -127,29 +125,34 @@ void GenerateSimulation(Grid<int> mainGrid, Grid<int> newGrid) {
 
     while (true) {
         cout << "a)nimate, t)ick, q)uit? ";
-        string response = getLine();
+
+        string response;
+        cin >> response;
 
         if (response == "a" || response == "A") {
             int numFrames = 0;
 
-            while (true) {
+            while (true)
+            {
                 cout << "How many frames? ";
-                cin >> numFrames;
-                if (!cin.fail()) {
+                string numFrame;
+                cin >> numFrame;
+
+                bool Failed = false;
+                for(string::iterator IT = numFrame.begin(); IT != numFrame.end();IT++) {
+                    if(*IT < 48 || *IT > 57)
+                    {
+                        Failed=true;
+                        cout << "Illegal integer format. Try again." << endl;
+                        break;
+                    }
+                }
+                if(Failed == false) {
+                    numFrames = atoi(numFrame.c_str());
                     break;
                 }
-                cin.clear();
-                cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                cout << "Illegal integer format. Try again." << endl;
             }
-//            do {
-//                cout << "How many frames? ";
-//                if (!cin) {
-//                    cout << "Illegal integer format. Try again." << endl;
-//                    cin.clear();
-//                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
-//                }
-//            } while (!(cin >> numFrames));
+
 
             int count = 0;
 
@@ -158,37 +161,18 @@ void GenerateSimulation(Grid<int> mainGrid, Grid<int> newGrid) {
 
                 PopulateNextGeneration(mainGrid, newGrid);
                 PrintGridFormat(newGrid);
-                //cout << newGrid.toString2D() << endl;
                 mainGrid = newGrid;
 
                 pause(500);
                 count ++;
             }
-//                cout << "How many frames? ";
-//                string inputLine;
-//                getLine(cin, inputLine);
-//                stringstream lineStream(inputLine);
-//                if (lineStream >> numFrames) {
-//                    //numFrames = stringToInteger(lineStream);
-//                    cout << "Yay " << lineStream;
-//                    break;
-//                }
-//                cout << "Illegal integer format. Try again." << endl;
 
-            //}
-//            if (stringToInteger(numberFrames) >= 0) {
-//                cout << "Yay " << stringToInteger(numberFrames);
-//                break;
-//            } else {
-//                cout << "Nay";
-//                break;
-//            }
 
         } else if (response == "t" || response == "T") {
             PopulateNextGeneration(mainGrid, newGrid);
             PrintGridFormat(newGrid);
-            //cout << newGrid.toString2D() << endl;
             mainGrid = newGrid;
+
         } else if (response == "q" || response == "Q") {
             cout << "Have a nice Life!";
             break;
@@ -215,7 +199,6 @@ void Welcome() {
 
 
 int main() {
-    // TODO: Finish the program!
 
     Welcome();
 
