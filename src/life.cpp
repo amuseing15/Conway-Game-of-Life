@@ -1,6 +1,6 @@
-// This is the CPP file you will edit and turn in.
-// Also remove these comments here and add your own.
-// TODO: remove this comment header!
+// Conway Game of Life main file
+// Written by Jake Magid
+
 
 #include <cctype>
 #include <cmath>
